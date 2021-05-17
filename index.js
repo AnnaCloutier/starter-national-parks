@@ -51,6 +51,7 @@ for (let i = 0; i < allAreas.length; i++) {
 };
 */
 
+/*
 const descriptions = document.querySelectorAll(".description-display");
 for (let desc of descriptions.values()) {
     let content = desc.innerText;
@@ -83,3 +84,124 @@ const main = document.querySelector("main");
 const park = main.querySelector(".park-display");
 main.removeChild(park);
 console.log(document)
+*/
+
+/*
+const firstBtn = document.querySelector("button");
+firstBtn.addEventListener("click", (event) => {
+    console.log(event.target);
+});
+*/
+
+
+const allBtns = document.querySelectorAll(".rate-button");
+/*
+allBtns.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+        console.log(event.target.parentNode)
+    });
+});
+*/
+allBtns.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+        const park = event.target.parentNode;
+        park.style.backgroundColor = "#c8e6c9";
+    });
+});
+
+//const nameSorter = document.querySelector("#name-sorter");
+
+//Function for sorting by name
+const sortByName = (parkA, parkB) => {
+    const parkAName = parkA.querySelector("h2").innerText;
+    const parkBName = parkB.querySelector("h2").innerText;
+    if (parkAName < parkBName) {
+        return -1;
+    } else if (parkAName > parkBName) {
+        return 1;
+    } else {
+        return 0;
+    }
+};
+
+//Function for handling the 'namesorter' click
+const nameSorterClickHandler = (event) => {
+    event.preventDefault();
+    const main = document.querySelector("main");
+    const parksList = main.querySelectorAll(".park-display");
+    main.innerHTML = "";
+    const parksArray = Array.from(parksList);
+    parksArray.sort(sortByName);
+    parksArray.forEach((park) => {
+        main.appendChild(park);
+    });
+};
+
+
+
+
+
+
+
+//Add rating sorter
+
+//function to sort by ratings
+const sortByRating = (rateA, rateB) => {
+    const parkARating = parseFloat(rateA.querySelector(".rating-display > .value").innerText);
+    const parkBRating = parseFloat(rateB.querySelector(".rating-display > .value").innerText);
+    return parkBRating - parkARating;
+};
+//function to handle ratingSorter click
+const ratingSorterClickHandler = (event) => {
+    event.preventDefault();
+    const main = document.querySelector("main");
+    const parksList = main.querySelectorAll(".park-display");
+    main.innerHTML = "";
+    const parksArray = Array.from(parksList);
+    parksArray.sort(sortByRating);
+    parksArray.forEach((park) => {
+        main.appendChild(park);
+    });
+};
+
+const domEventHandlerFunction = () => {
+    //Select the 'nameSorter' link
+    const nameSorter = document.querySelector("#name-sorter");
+    //Add event listener
+    nameSorter.addEventListener("click", nameSorterClickHandler);
+    //Select ratingSorter link
+    const ratingSorter = document.querySelector("#rating-sorter");
+    //add event listener
+    ratingSorter.addEventListener("click", ratingSorterClickHandler);
+}
+window.addEventListener("DOMContentLoaded", domEventHandlerFunction);
+
+
+
+/*
+nameSorter.addEventListener("click", (event) => {
+    event.preventDefault();
+    const main = document.querySelector("main");
+    const parksList = main.querySelectorAll(".park-display");
+    main.innerHTML = "";
+    const parksArray = Array.from(parksList);
+    parksArray.sort((parkA, parkB) => {
+        const parkAName = parkA.querySelector("h2").innerText;
+        const parkBName = parkB.querySelector("h2").innerText;
+        if (parkAName < parkBName) {
+            return -1;
+        } else if (parkAName > parkBName) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+    parksArray.forEach((park) => {
+        main.appendChild(park);
+    });
+});
+*/
+
+
+
+
