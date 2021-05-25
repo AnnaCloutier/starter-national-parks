@@ -18,6 +18,23 @@ const submitHandler = (event) => {
 
   // if there are no errors
   if (!hasErrors) {
+    //create an empty object
+    const park = {
+      name: formData.get("name"),
+      location: formData.get("location"),
+      description: formData.get("description"),
+      established: formData.get("established"),
+      area: formData.get("area"),
+      rating: formData.get("rating"),
+    };
+
+    parks.push(park);
+
+    render();
+  }
+
+
+  /*
     //create a new element
     const parkSection = document.createElement("section");
 
@@ -52,18 +69,22 @@ const submitHandler = (event) => {
     //append to the main element
     document.querySelector("main").appendChild(parkSection);
   }
+*/
 };
 
 // function to handler favorite button clicks
 const favoriteButtonClickHandler = (event) => {
+  //check that target of event, actual element that was clicked, is a button
+  if (event.target && event.target.nodeName == "BUTTON") {
   const park = event.target.parentNode;
   park.style.backgroundColor = "#c8e6c9";
+  }
 };
 
 // function for sorting by name
 const sortByName = (parkA, parkB) => {
-  const parkAName = parkA.querySelector("h2").innerText;
-  const parkBName = parkB.querySelector("h2").innerText;
+  const parkAName = parkA.name;
+  const parkBName = parkB.namr;
   if (parkAName < parkBName) {
     return -1;
   } else if (parkAName > parkBName) {
@@ -73,21 +94,23 @@ const sortByName = (parkA, parkB) => {
   }
 };
 
+
 // function for sorting by rating
 const sortByRating = (parkA, parkB) => {
-  const parkARating = parseFloat(
-    parkA.querySelector(".rating-display > .value").innerText
-  );
-  const parkBRating = parseFloat(
-    parkB.querySelector(".rating-display > .value").innerText
-  );
+  const parkARating = parkA.rating;
+  const parkBRating = parkB.rating;
   return parkBRating - parkARating;
 };
+
 
 // function for handling the nameSorter click
 const nameSorterClickHandler = (event) => {
   event.preventDefault();
 
+  parks.sort(sortByName);
+
+  render();
+/*
   // 1.  get the main element
   const main = document.querySelector("main");
 
@@ -107,12 +130,18 @@ const nameSorterClickHandler = (event) => {
   parksArray.forEach((park) => {
     main.appendChild(park);
   });
+*/
 };
+
 
 // function to handle the ratingSorter click
 const ratingSorterClickHandler = (event) => {
   event.preventDefault();
 
+  ratings.sort(sortByRating);
+
+  render();
+/*
   // 1.  get the main element
   const main = document.querySelector("main");
 
@@ -132,8 +161,14 @@ const ratingSorterClickHandler = (event) => {
   parksArray.forEach((park) => {
     main.appendChild(park);
   });
+*/
 };
 
+//Select all buttons for all parks
+const main = document.querySelector("main");
+//Add event handler to the main
+main.addEventListener("click", favoriteButtonClickHandler);
+/*
 // the point where all the code starts
 const main = () => {
   // select the nameSorter link
@@ -161,7 +196,59 @@ const main = () => {
 
   // attach the submit handler
   form.addEventListener("submit", submitHandler);
+
+  //call the render function
+  render();
 };
+*/
+
+const renderOnePark = (park) => {
+  //Get the individual properties of the park
+  const { name, location, description, established, area, rating } = park;
+
+  const content = `
+      <section class="park-display">
+        <h2>${name}</h2>
+        <div class="location-display">${location}</div>
+        <div class="description-displa">${description}</div>
+        <button class="rate-button" title="Add to Favourites">&#9734;</button>
+        <div class="stats">
+          <div class="established-display stat">
+            <h3>Established</h3>
+            <div class="value">${established}</div>
+          </div>
+          <div class="area-display stat">
+            <h3>Area</h3>
+            <div class="value">${area}</div>
+          </div>
+          <div class="rating-display stat">
+            <h3>Rating</h3>
+            <div class="value">${rating}</div>
+          </div>
+        </div>
+      </section>
+  `;
+  return content;
+};
+
+
+const render = () => {
+  //get the parent element
+  const main = document.querySelector("main");
+
+  //empty the parent element
+  main.innerHTML = "";
+
+  //get the parks HTML
+  const content = parks.map(renderOnePark).join("");
+
+  //set the innerHTML of parent element
+  main.innerHTML = content;
+};
+
+
+
+
 
 // Add event listener for DOMContentLoaded
 window.addEventListener("DOMContentLoaded", main);
