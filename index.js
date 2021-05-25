@@ -32,47 +32,10 @@ const submitHandler = (event) => {
 
     render();
   }
-
-
-  /*
-    //create a new element
-    const parkSection = document.createElement("section");
-
-    // add the park class
-    parkSection.classList.add("park-display");
-
-    // construct the HTML for this element
-    const content = `
-    <h2>${formData.get("name")}</h2>
-    <div class="location-display">${formData.get("location")}</div>
-    <div class="description-display">${formData.get("description")}</div>
-    <button class="rate-button" title="Add to Favourites">&#9734;</button>
-    <div class="stats">
-      <div class="established-display stat">
-        <h3>Established</h3>
-        <div class="value">${formData.get("established")}</div>
-      </div>
-      <div class="area-display stat">
-        <h3>Area</h3>
-        <div class="value">${formData.get("area")}</div>
-      </div>
-      <div class="rating-display stat">
-        <h3>Rating</h3>
-        <div class="value">${formData.get("rating")}</div>
-      </div>
-    </div>
-    `;
-
-    // set the innerHTML
-    parkSection.innerHTML = content;
-
-    //append to the main element
-    document.querySelector("main").appendChild(parkSection);
-  }
-*/
 };
 
-// function to handler favorite button clicks
+
+// function to handle favorite button clicks
 const favoriteButtonClickHandler = (event) => {
   //check that target of event, actual element that was clicked, is a button
   if (event.target && event.target.nodeName == "BUTTON") {
@@ -81,10 +44,11 @@ const favoriteButtonClickHandler = (event) => {
   }
 };
 
+
 // function for sorting by name
 const sortByName = (parkA, parkB) => {
   const parkAName = parkA.name;
-  const parkBName = parkB.namr;
+  const parkBName = parkB.name;
   if (parkAName < parkBName) {
     return -1;
   } else if (parkAName > parkBName) {
@@ -97,8 +61,8 @@ const sortByName = (parkA, parkB) => {
 
 // function for sorting by rating
 const sortByRating = (parkA, parkB) => {
-  const parkARating = parkA.rating;
-  const parkBRating = parkB.rating;
+  const parkARating = parseFloat(parkA.rating);
+  const parkBRating = parseFloat(parkB.rating);
   return parkBRating - parkARating;
 };
 
@@ -110,27 +74,6 @@ const nameSorterClickHandler = (event) => {
   parks.sort(sortByName);
 
   render();
-/*
-  // 1.  get the main element
-  const main = document.querySelector("main");
-
-  // 2. get the list of parks
-  const parksList = main.querySelectorAll(".park-display");
-
-  // 3. empty the main
-  main.innerHTML = "";
-
-  // 4. create an array
-  const parksArray = Array.from(parksList);
-
-  // 5. sort the array
-  parksArray.sort(sortByName);
-
-  // 6. Insert each park into the DOM
-  parksArray.forEach((park) => {
-    main.appendChild(park);
-  });
-*/
 };
 
 
@@ -138,69 +81,11 @@ const nameSorterClickHandler = (event) => {
 const ratingSorterClickHandler = (event) => {
   event.preventDefault();
 
-  ratings.sort(sortByRating);
+  parks.sort(sortByRating);
 
   render();
-/*
-  // 1.  get the main element
-  const main = document.querySelector("main");
-
-  // 2. get the list of parks
-  const parksList = main.querySelectorAll(".park-display");
-
-  // 3. empty the main
-  main.innerHTML = "";
-
-  // 4. create an array
-  const parksArray = Array.from(parksList);
-
-  // 5. sort the array
-  parksArray.sort(sortByRating);
-
-  // 6. Insert each park into the DOM
-  parksArray.forEach((park) => {
-    main.appendChild(park);
-  });
-*/
 };
 
-//Select all buttons for all parks
-const main = document.querySelector("main");
-//Add event handler to the main
-main.addEventListener("click", favoriteButtonClickHandler);
-/*
-// the point where all the code starts
-const main = () => {
-  // select the nameSorter link
-  const nameSorter = document.querySelector("#name-sorter");
-
-  // add an event listener
-  nameSorter.addEventListener("click", nameSorterClickHandler);
-
-  // select the ratingSorter link
-  const ratingSorter = document.querySelector("#rating-sorter");
-
-  // add an event listener
-  ratingSorter.addEventListener("click", ratingSorterClickHandler);
-
-  // select all the buttons for all the parks
-  const allBtns = document.querySelectorAll(".rate-button");
-
-  // iterate the list of buttons and add an event handler to each
-  allBtns.forEach((btn) => {
-    btn.addEventListener("click", favoriteButtonClickHandler);
-  });
-
-  // get the form element
-  const form = document.querySelector("#park-form");
-
-  // attach the submit handler
-  form.addEventListener("submit", submitHandler);
-
-  //call the render function
-  render();
-};
-*/
 
 const renderOnePark = (park) => {
   //Get the individual properties of the park
@@ -245,6 +130,55 @@ const render = () => {
   //set the innerHTML of parent element
   main.innerHTML = content;
 };
+
+
+
+
+//Select all buttons for all parks
+//...not sure why checkpoint has this because the main function cannot be replaced with it
+//const main = document.querySelector("main");
+//Add event handler to the main
+//main.addEventListener("click", favoriteButtonClickHandler);
+
+
+
+// the point where all the code starts
+const main = () => {
+  // select the nameSorter link
+  const nameSorter = document.querySelector("#name-sorter");
+
+  // add an event listener
+  nameSorter.addEventListener("click", nameSorterClickHandler);
+
+  // select the ratingSorter link
+  const ratingSorter = document.querySelector("#rating-sorter");
+
+  // add an event listener
+  ratingSorter.addEventListener("click", ratingSorterClickHandler);
+
+  // select all the buttons for all the parks
+  const allBtns = document.querySelectorAll(".rate-button");
+
+  // iterate the list of buttons and add an event handler to each
+  allBtns.forEach((btn) => {
+    btn.addEventListener("click", favoriteButtonClickHandler);
+  });
+
+  // get the form element
+  const form = document.querySelector("#park-form");
+
+  // attach the submit handler
+  form.addEventListener("submit", submitHandler);
+
+  //call the render function
+  render();
+};
+
+
+
+
+
+
 
 
 
